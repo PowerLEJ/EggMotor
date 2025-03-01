@@ -4,7 +4,9 @@
 #define IN4  11
 
 int Steps = 0;              // 현재 스텝
-int steps_left = 4095;      // 한 바퀴 (스텝 수)
+int num_revolutions = 2;    // 회전할 바퀴 수
+int steps_per_revolution = 4095;  // 한 바퀴에 필요한 스텝 수
+int steps_left = steps_per_revolution * num_revolutions;  // 전체 스텝 수
 boolean Direction = true;   // 회전 방향 (true: 정방향, false: 역방향)
 unsigned long last_time;    // 마지막 시간 기록
 unsigned long currentMillis;
@@ -16,9 +18,12 @@ void setup() {
     pinMode(IN2, OUTPUT);    // IN2 핀을 출력으로 설정
     pinMode(IN3, OUTPUT);    // IN3 핀을 출력으로 설정
     pinMode(IN4, OUTPUT);    // IN4 핀을 출력으로 설정
+
+    delay(5000); // 5초 후에 시작
 }
 
-void loop() { 
+void loop() {
+
     // 정방향 회전
     while(steps_left > 0) {
         currentMillis = micros();  // 현재 시간 (마이크로초 단위) 기록
@@ -30,11 +35,11 @@ void loop() {
         }
     }
 
-    // 3시간 대기 (10,800,000 밀리초)
-    Serial.println("3시간 대기 중...");
-    delay(1000*3*60*60); 
+    // 1시간 대기
+    Serial.println("1시간 대기 중...");
+    delay(1000*1*60*60); 
     Direction = !Direction;  // 회전 방향 반전
-    steps_left = 4095;       // 스텝 수 초기화
+    steps_left = steps_per_revolution * num_revolutions;  // 스텝 수 초기화
     
     // 역방향 회전
     while(steps_left > 0) {
@@ -47,11 +52,11 @@ void loop() {
         }
     }
 
-    // 3시간 대기 (10,800,000 밀리초)
-    Serial.println("3시간 대기 중...");
-    delay(1000*3*60*60); 
+    // 1시간 대기
+    Serial.println("1시간 대기 중...");
+    delay(1000*1*60*60); 
     Direction = !Direction;  // 회전 방향 반전
-    steps_left = 4095;       // 스텝 수 초기화
+    steps_left = steps_per_revolution * num_revolutions;  // 스텝 수 초기화
 }
 
 void stepper(int xw) {
