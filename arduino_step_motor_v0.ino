@@ -1,3 +1,4 @@
+// Forward rotation, Reverse rotation
 #define IN1_1  4
 #define IN2_1  5
 #define IN3_1  6
